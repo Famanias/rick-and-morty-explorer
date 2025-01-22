@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import './App.css';
-import Pagination from './Pagination';
+import ReactPaginateLib from './ReactPaginateLib';
 
 const App = () => {
   const [characters, setCharacters] = useState([]);
@@ -41,7 +41,7 @@ const App = () => {
     setCurrentPage(1); // Reset to the first page on filter change
   };
 
-  const handlePageChange = (newPage) => {
+  const handlePageClick = (newPage) => {
     setCurrentPage(newPage);
   };
 
@@ -51,22 +51,35 @@ const App = () => {
         <h1>Rick and Morty Explorer</h1>
       </header>
       <main>
-        <div className="filters">
-          <label>
-            Search by Name:
+        <div className="name-filter">
+          <label className="search-label">
             <input
+              className="input-field"
               type="text"
               value={filters.name}
               onChange={(e) => updateFilter('name', e.target.value)}
             />
+            <span className="search-button">Search</span>
           </label>
+        </div>
+
+        <div className="filters">
           <label>
             Species:
-            <input
-              type="text"
-              value={filters.species}
-              onChange={(e) => updateFilter('species', e.target.value)}
-            />
+            <select value={filters.species} onChange={(e) => updateFilter('species', e.target.value)}>
+              <option value="">All</option>
+              <option value="Human">Human</option>
+              <option value="Alien">Alien</option>
+              <option value="Humanoid">Humanoid</option>
+              <option value="Animal">Animal</option>
+              <option value="Poopybutthole">Poopybutthole</option>
+              <option value="Mythological Creature">Mythological</option>
+              <option value="Unknown">Unknown</option>
+              <option value="Disease">Disease</option>
+              <option value="Robot">Robot</option>
+              <option value="Cronenberg">Cronenberg</option>
+              <option value="Parasite">Parasite</option>
+            </select>
           </label>
           <label>
             Status:
@@ -110,10 +123,10 @@ const App = () => {
           <p>No characters found. Try adjusting the filters!</p>
         )}
 
-        <Pagination
+        <ReactPaginateLib
           currentPage={currentPage}
           totalPages={totalPages}
-          onPageChange={handlePageChange}
+          onPageChange={handlePageClick}
         />
       </main>
     </div>
